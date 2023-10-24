@@ -209,6 +209,8 @@ namespace WebApplication5.Services.Auth
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             authModel.Email = user.Email;
             authModel.Username = user.UserName;
+            authModel.FirstName = user.FirstName;
+            authModel.LastName = user.LastName;
             var roles = await _userManager.GetRolesAsync(user);
             authModel.Roles = roles.ToList();
             authModel.RefreshToken = newRefreshToken.Token; 
