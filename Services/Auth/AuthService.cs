@@ -107,6 +107,8 @@ namespace WebApplication5.Services.Auth
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.Email = user.Email;
             authModel.Username = user.UserName;
+            authModel.FirstName = user.FirstName;
+            authModel.LastName = user.LastName;
             authModel.ExpiresOn = jwtSecurityToken.ValidTo;
             authModel.Roles = rolesList.ToList();
 
