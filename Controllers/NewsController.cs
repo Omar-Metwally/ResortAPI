@@ -57,9 +57,9 @@ public class NewsController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetNews()
+    public async Task<IActionResult> GetNews(int start, int end)
     {
-        ErrorOr<IEnumerable<News>> getNewsResult = await _news.GetNews();
+        ErrorOr<IEnumerable<News>> getNewsResult = await _news.GetNews(start, end);
 
         return getNewsResult.Match(
             news => Ok(MapNewsResponse(news)),

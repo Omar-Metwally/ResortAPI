@@ -7,7 +7,7 @@ public interface INewsService
 {
     Task<ErrorOr<Created>> AddNews(News news);
     Task<ErrorOr<News>> GetNewsById(Guid id);
-    Task<ErrorOr<IEnumerable<News>>> GetNews();
+    Task<ErrorOr<IEnumerable<News>>> GetNews(int start,int end);
     Task<ErrorOr<Updated>> UpsertNews(News expense);
     Task<ErrorOr<Deleted>> DeleteNews(Guid id);
 

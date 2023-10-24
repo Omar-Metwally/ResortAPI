@@ -44,9 +44,9 @@ public class NewsService : INewsService
         return Errors.News.NotFound;
     }
 
-    public async Task<ErrorOr<IEnumerable<News>>> GetNews()
+    public async Task<ErrorOr<IEnumerable<News>>> GetNews(int start,int end)
     {
-        var news = await _context.News.ToArrayAsync();
+        var news = await _context.News.Skip(start).Take(end).OrderByDescending(x => x.Date).ToArrayAsync();
         return news;
     }
     public async Task<ErrorOr<Updated>> UpsertNews(News news)
