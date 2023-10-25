@@ -8,7 +8,7 @@ namespace WebApplication5.Models.DominModels.Auth
         public bool IsAuthenticated { get; set; }
         public string? Username { get; set; }
         public string? Email { get; set; }
-        public List<string>? Roles { get; set; }
+        public List<string>? IsOwner { get; set; }
         public string? Token { get; set; }
         public DateTime? ExpiresOn { get; set; }
         public string? FirstName { get; set; }

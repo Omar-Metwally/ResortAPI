@@ -18,5 +18,8 @@ namespace WebApplication5.Models.DominModels.Auth
 
         [StringLength(256)]
         public string Password { get; set; }
+
+        public bool IsOwner { get; set; }
+
     }
 }

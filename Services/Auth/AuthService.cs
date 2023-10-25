@@ -57,7 +57,7 @@ namespace WebApplication5.Services.Auth
                 return new AuthModel { Message = errors };
             }
 
-            await _userManager.AddToRoleAsync(user, "User");
+            await _userManager.AddToRoleAsync(user, model.IsOwner.ToString());
 
             var jwtSecurityToken = await CreateJwtToken(user);
 
@@ -80,7 +80,7 @@ namespace WebApplication5.Services.Auth
                 Email = user.Email,
                 ExpiresOn = jwtSecurityToken.ValidTo,
                 IsAuthenticated = true,
-                Roles = new List<string> { "User" },
+                IsOwner = new List<string> { model.IsOwner.ToString() },
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
                 Username = user.UserName,
                 RefreshToken = refreshToken.Token,
@@ -110,7 +110,7 @@ namespace WebApplication5.Services.Auth
             authModel.FirstName = user.FirstName;
             authModel.LastName = user.LastName;
             authModel.ExpiresOn = jwtSecurityToken.ValidTo;
-            authModel.Roles = rolesList.ToList();
+            authModel.IsOwner = rolesList.ToList();
 
             if(user.RefreshTokens.Any(t => t.IsActive))
             {
@@ -214,7 +214,7 @@ namespace WebApplication5.Services.Auth
             authModel.FirstName = user.FirstName;
             authModel.LastName = user.LastName;
             var roles = await _userManager.GetRolesAsync(user);
-            authModel.Roles = roles.ToList();
+            authModel.IsOwner = roles.ToList();
             authModel.RefreshToken = newRefreshToken.Token; 
             authModel.RefreshTokenExpiration = newRefreshToken.ExpiresOn; 
 

@@ -100,8 +100,10 @@ public class ApartmentController : ApiController
             apartment.ApartmentNumber,
             apartment.OwnerId,
             apartment.FloorNumber,
+            apartment.Leases.Any(x => x.EndDate > DateTime.Now),
             apartment.Leases,
-            apartment.Owner);
+            apartment.Owner
+            );
     }
     private CreatedAtActionResult CreatedAtGetApartment(Apartment apartment)
     {

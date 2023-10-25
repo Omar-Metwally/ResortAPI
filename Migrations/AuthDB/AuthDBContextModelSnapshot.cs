@@ -283,7 +283,7 @@ namespace WebApplication5.Migrations.AuthDB
 
             modelBuilder.Entity("WebApplication5.Models.DominModels.Auth.ApplicationUser", b =>
                 {
-                    b.OwnsMany("WebApplication5.Models.DominModels.Auth.RefreshToken", "RefreshTokens", b1 =>
+                    b.OwnsMany("WebApplication5.Models.DominModels.Auth.ApplicationUser.RefreshTokens#WebApplication5.Models.DominModels.Auth.RefreshToken", "RefreshTokens", b1 =>
                         {
                             b1.Property<string>("ApplicationUserId")
                                 .HasColumnType("nvarchar(450)");
@@ -309,7 +309,7 @@ namespace WebApplication5.Migrations.AuthDB
 
                             b1.HasKey("ApplicationUserId", "Id");
 
-                            b1.ToTable("RefreshToken");
+                            b1.ToTable("RefreshToken", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ApplicationUserId");

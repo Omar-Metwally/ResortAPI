@@ -9,5 +9,6 @@ public record ApartmentGetRequest(
     string ApartmentNumber,
     Guid OwnerId,
     string FloorNumber,
+    bool IsLeased,
     ICollection<DominModels.Lease> Leases,
     DominModels.Owner Owner);
