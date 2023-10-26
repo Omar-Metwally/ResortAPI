@@ -36,7 +36,7 @@ namespace WebApplication5.Services.Auth
 
             if (await _userManager.FindByNameAsync(model.Username) is not null)
                 return new AuthModel { Message = "Username is already registered!" };
-
+            
             var user = new ApplicationUser
             {
                 UserName = model.Username,
@@ -84,6 +84,8 @@ namespace WebApplication5.Services.Auth
                 IsAuthenticated = true,
                 IsOwner = new List<string> { model.IsOwner.ToString() },
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Username = user.UserName,
                 RefreshToken = refreshToken.Token,
                 RefreshTokenExpiration = refreshToken.ExpiresOn
