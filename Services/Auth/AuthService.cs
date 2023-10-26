@@ -56,8 +56,10 @@ namespace WebApplication5.Services.Auth
 
                 return new AuthModel { Message = errors };
             }
-
-            await _userManager.AddToRoleAsync(user, model.IsOwner.ToString());
+            string role;
+            if (model.IsOwner) role = "ISOWNER";
+            else role = "USER";
+            await _userManager.AddToRoleAsync(user, role);
 
             var jwtSecurityToken = await CreateJwtToken(user);
 
