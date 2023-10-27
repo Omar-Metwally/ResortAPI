@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication5.Services.Auth;
 using WebApplication5.Models.DominModels.Auth;
+using WebApplication5.Services.Apartments;
 
 namespace WebApplication5.Controllers
 {
@@ -13,9 +14,13 @@ namespace WebApplication5.Controllers
     {
         private readonly IAuthService _authService;
 
-        public AuthController(IAuthService authService)
+        private readonly IApartmentService _apartment;
+
+        public AuthController(IAuthService authService, IApartmentService apartment)
         {
             _authService = authService;
+
+            _apartment = apartment;
         }
 
         [HttpPost("register")]
@@ -30,6 +35,8 @@ namespace WebApplication5.Controllers
                 return BadRequest(result.Message);
 
             SetRefreshTokenInCookie(result.RefreshToken, result.RefreshTokenExpiration);
+            var Apartments = await _apartment.GetApartmentsByOwnerID(result.id);
+            result.Apartments = (ICollection<Models.DominModels.Apartment>?)Apartments.Value;
 
             return Ok(result);
         }
@@ -38,12 +45,13 @@ namespace WebApplication5.Controllers
         public async Task<IActionResult> GetTokenAsync([FromBody] TokenRequestModel model)
         {
             var result = await _authService.GetTokenAsync(model);
-
             if (!result.IsAuthenticated)
                 return BadRequest(result.Message);
 
             if(!string.IsNullOrEmpty(result.RefreshToken))
                 SetRefreshTokenInCookie(result.RefreshToken, result.RefreshTokenExpiration);
+            var Apartments = await _apartment.GetApartmentsByOwnerID(result.id);
+            result.Apartments = (ICollection<Models.DominModels.Apartment>?)Apartments.Value;
 
             return Ok(result);
         }

@@ -50,10 +50,16 @@ public class ApartmentService : IApartmentService
     {
         var apartment = await _context.Apartments.Include(x => x.Leases).Include(x => x.Bills).SingleOrDefaultAsync(x => x.Id == id);
         if (apartment != null) return apartment;
-        /*if (_apartments.TryGetValue(id, out var breakfast))
-        {
-            return breakfast;
-        }*/
+
+
+        return Errors.Apartment.NotFound;
+    }
+
+    public async Task<ErrorOr<IEnumerable<Apartment>>> GetApartmentsByOwnerID(Guid OwnerId)
+    {
+        var apartment = await _context.Apartments.Include(x => x.Leases).Include(x => x.Bills).Where(x => x.OwnerId == OwnerId).ToArrayAsync();
+        if (apartment != null) return apartment;
+
 
         return Errors.Apartment.NotFound;
     }

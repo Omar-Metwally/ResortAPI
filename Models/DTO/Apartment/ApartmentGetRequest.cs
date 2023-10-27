@@ -11,4 +11,5 @@ public record ApartmentGetRequest(
     string FloorNumber,
     bool IsLeased,
     ICollection<DominModels.Lease> Leases,
-    DominModels.Owner Owner);
+    DominModels.Owner Owner,
+    ICollection<DominModels.Bill> Bills);

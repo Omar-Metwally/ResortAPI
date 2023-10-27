@@ -4,6 +4,7 @@ namespace WebApplication5.Models.DominModels.Auth
 {
     public class AuthModel
     {
+        public Guid id { get; set; }
         public string? Message { get; set; }
         public bool IsAuthenticated { get; set; }
         public string? Username { get; set; }
@@ -16,6 +17,7 @@ namespace WebApplication5.Models.DominModels.Auth
 
         [JsonIgnore]
         public string? RefreshToken { get; set; }
+        public ICollection<Apartment>? Apartments { get; set; } = new List<Apartment>();
 
         public DateTime RefreshTokenExpiration { get; set; }
     }

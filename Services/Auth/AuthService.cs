@@ -115,8 +115,8 @@ namespace WebApplication5.Services.Auth
             authModel.LastName = user.LastName;
             authModel.ExpiresOn = jwtSecurityToken.ValidTo;
             authModel.IsOwner = rolesList.ToList();
-
-            if(user.RefreshTokens.Any(t => t.IsActive))
+            authModel.id = Guid.Parse(user.Id);
+            if (user.RefreshTokens.Any(t => t.IsActive))
             {
                 var activeRefreshToken = user.RefreshTokens.FirstOrDefault(t => t.IsActive);
                 authModel.RefreshToken = activeRefreshToken.Token;
@@ -220,7 +220,9 @@ namespace WebApplication5.Services.Auth
             var roles = await _userManager.GetRolesAsync(user);
             authModel.IsOwner = roles.ToList();
             authModel.RefreshToken = newRefreshToken.Token; 
-            authModel.RefreshTokenExpiration = newRefreshToken.ExpiresOn; 
+            authModel.RefreshTokenExpiration = newRefreshToken.ExpiresOn;
+            authModel.id = Guid.Parse(user.Id);
+
 
             return authModel;
         }

@@ -59,9 +59,17 @@ public class ApartmentController : ApiController
 
         return Ok(getApartmentResult.Value);
 
-        /*return getApartmentResult.MatchFirst(
-            apartment => Ok(MapApartmentResponse(apartment)),
-            errors => Problem(errors));*/
+
+    }
+
+    [HttpGet("GetApartmentsByOwnerID")]
+    public async Task<IActionResult> GetApartmentsByOwnerID(Guid OwnerId)
+    {
+        ErrorOr<IEnumerable<Apartment>> getApartmentResult = await _apartment.GetApartmentsByOwnerID(OwnerId);
+
+        return getApartmentResult.MatchFirst(
+            apartments => Ok(MapApartmentsResponse(apartments)),
+            errors => Problem(errors.Code));
     }
 
     [HttpPut("{id:guid}")]
@@ -102,8 +110,19 @@ public class ApartmentController : ApiController
             apartment.FloorNumber,
             apartment.Leases.Any(x => x.EndDate > DateTime.Now),
             apartment.Leases,
-            apartment.Owner
+            apartment.Owner,
+            apartment.Bills
             );
+    }
+
+    public static IEnumerable<ApartmentGetRequest>  MapApartmentsResponse(IEnumerable<Apartment> apartments)
+    {
+        var ApartmentsGetRequest = new List<ApartmentGetRequest>();
+        foreach (var apartment in apartments)
+        {
+            ApartmentsGetRequest.Add(MapApartmentResponse(apartment));
+        }
+        return ApartmentsGetRequest;
     }
     private CreatedAtActionResult CreatedAtGetApartment(Apartment apartment)
     {
