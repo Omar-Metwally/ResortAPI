@@ -21,11 +21,11 @@ public class NewsController : ApiController
         _news = news;
     }
 
-    [HttpPost("UploadImage")]
+    /*[HttpPost("UploadImage")]
     public  IActionResult AddNews(IFormFile file)
     {
         return Created("Sdf",145);
-    }
+    }*/
 
     [HttpPost]
     public async Task<IActionResult> AddNews(NewsCreateRequest request)
