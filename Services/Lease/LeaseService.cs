@@ -21,7 +21,7 @@ public class LeaseService : ILeaseService
     {
         if (await _context.Apartments.AnyAsync(x => x.Id == lease.ApartmentId))
         {
-            if(await _context.Leases.AllAsync(x => x.EndDate < lease.StartDate))
+            if(await _context.Leases.Where(x => x.Id == lease.ApartmentId).AllAsync(x => x.EndDate < lease.StartDate))
             {
                 await _context.Leases.AddAsync(lease);
                 await _context.SaveChangesAsync();
